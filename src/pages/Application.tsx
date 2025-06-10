@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +16,11 @@ import { ArrowLeft, Upload } from "lucide-react";
 
 const Application = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [showManualDialog, setShowManualDialog] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [manualCoverLetter, setManualCoverLetter] = useState("");
   const [emailNotifications, setEmailNotifications] = useState({
     daily: true,
     weekly: true,
@@ -32,6 +36,14 @@ const Application = () => {
   const handleConfirm = () => {
     setShowModal(false);
     navigate("/login");
+  };
+
+  const handleUploadClick = () => {
+    setShowUploadDialog(true);
+  };
+
+  const handleManualClick = () => {
+    setShowManualDialog(true);
   };
 
   return (
@@ -62,7 +74,7 @@ const Application = () => {
                 <span className="text-lg font-medium">Upload CV</span>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-                <Button variant="outline" className="flex items-center gap-2 justify-center">
+                <Button variant="outline" className="flex items-center gap-2 justify-center" onClick={handleUploadClick}>
                   <Upload className="h-4 w-4" />
                   Upload
                 </Button>
@@ -84,7 +96,7 @@ const Application = () => {
               <div className="flex flex-col items-center sm:items-start gap-1 sm:gap-2">
                 <Button variant="outline" className="w-full sm:w-auto">A.I. Cover</Button>
                 <span className="text-gray-500 text-sm">OR</span>
-                <button className="text-blue-600 hover:underline text-sm">Manually</button>
+                <button className="text-blue-600 hover:underline text-sm" onClick={handleManualClick}>Manually</button>
               </div>
             </div>
 
@@ -123,6 +135,65 @@ const Application = () => {
             <Button variant="outline">Close</Button>
           </div>
         </Card>
+
+        {/* Upload CV Dialog */}
+        <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-center text-lg font-semibold">
+                Upload Your CV
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <Upload className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                <p className="text-sm text-gray-600 mb-4">
+                  Drag and drop your CV here, or click to browse
+                </p>
+                <Input type="file" accept=".pdf,.doc,.docx" className="cursor-pointer" />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={() => setShowUploadDialog(false)} className="flex-1">
+                  Upload
+                </Button>
+                <Button variant="outline" onClick={() => setShowUploadDialog(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Manual Cover Letter Dialog */}
+        <Dialog open={showManualDialog} onOpenChange={setShowManualDialog}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-center text-lg font-semibold">
+                Write Your Cover Letter
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="coverLetter">Cover Letter</Label>
+                <Textarea
+                  id="coverLetter"
+                  placeholder="Write your cover letter here..."
+                  value={manualCoverLetter}
+                  onChange={(e) => setManualCoverLetter(e.target.value)}
+                  className="min-h-[200px]"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={() => setShowManualDialog(false)} className="flex-1">
+                  Save
+                </Button>
+                <Button variant="outline" onClick={() => setShowManualDialog(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Email Confirmation Modal */}
         <Dialog open={showModal} onOpenChange={setShowModal}>

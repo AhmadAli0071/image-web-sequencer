@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -73,9 +72,6 @@ const Dashboard = () => {
           </div>
           
           <div className="mt-8 flex gap-4">
-            <Link to="/">
-              <Button variant="outline">Home</Button>
-            </Link>
             <Link to="/job-offer">
               <Button>Browse More Jobs</Button>
             </Link>
