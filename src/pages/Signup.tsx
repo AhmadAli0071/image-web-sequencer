@@ -7,14 +7,16 @@ import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login - in real app, you'd validate credentials
+    // Simulate signup - in real app, you'd create account
     navigate("/dashboard");
   };
 
@@ -22,16 +24,29 @@ const Login = () => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="w-full max-w-md">
         <div className="mb-6">
-          <Link to="/application" className="text-sm text-gray-600 hover:text-blue-600 flex items-center gap-2">
+          <Link to="/login" className="text-sm text-gray-600 hover:text-blue-600 flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Application
+            Back to Login
           </Link>
         </div>
 
         <Card className="p-8 bg-white shadow-lg">
-          <h1 className="text-3xl font-bold mb-8 text-gray-900">Member Login</h1>
+          <h1 className="text-3xl font-bold mb-8 text-gray-900">Create Account</h1>
           
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleSignup} className="space-y-6">
+            <div>
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                type="text"
+                placeholder="Enter your full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="mt-1"
+                required
+              />
+            </div>
+
             <div>
               <Label htmlFor="email">Email</Label>
               <Input
@@ -57,29 +72,30 @@ const Login = () => {
                 required
               />
             </div>
+
+            <div>
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1"
+                required
+              />
+            </div>
             
             <Button type="submit" className="w-full">
-              Login
+              Create Account
             </Button>
-
-            <div className="flex flex-col gap-3 mt-4">
-              <Link to="/signup">
-                <Button variant="outline" className="w-full">
-                  Sign Up
-                </Button>
-              </Link>
-              
-              <Link to="/forgot-password" className="text-center text-sm text-blue-600 hover:underline">
-                Forgot Password?
-              </Link>
-            </div>
           </form>
           
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
-              <Link to="/application" className="text-blue-600 hover:underline">
-                Apply here
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Sign in here
               </Link>
             </p>
           </div>
@@ -89,4 +105,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
